@@ -5,6 +5,17 @@ All notable changes to the AskSage Dify Plugin will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Minimum daemon version raised to 0.5.5+** in README. Daemon 0.5.3 (Dify 1.13.3 default) has a `form:` struct-tag bug that breaks `.difypkg` installation with a 400 error on `/decode/from_identifier`. Fixed upstream in [dify-plugin-daemon PR #593](https://github.com/langgenius/dify-plugin-daemon/pull/593).
+
+### Added
+
+- **Known Issues section** in README documenting the daemon 0.5.3 regression with workaround and references.
+- **Daemon version check** instructions in the Installation section with docker-compose snippet.
+
 ## [0.1.0] - 2026-04-18
 
 ### Added

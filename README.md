@@ -48,7 +48,7 @@ For MFA setup, we recommend Microsoft Authenticator or Google Authenticator. Con
 | Component | Version |
 |-----------|---------|
 | Dify | 1.0+ with Plugin Daemon |
-| Dify Plugin Daemon | 0.5.x |
+| Dify Plugin Daemon | **0.5.5+** (see [known issues](#known-issues--daemon-053)) |
 | Dify Plugin SDK (`dify_plugin`) | 0.5.x (must match daemon) |
 | Python | 3.12 |
 | AskSage Account | With API key access |
@@ -56,6 +56,28 @@ For MFA setup, we recommend Microsoft Authenticator or Google Authenticator. Con
 **Important:** The `dify_plugin` SDK version must match your Plugin Daemon version. If your daemon is `0.5.3`, install `dify_plugin>=0.5.0,<0.6.0`. A version mismatch (e.g., SDK 0.7.x with daemon 0.5.x) will cause silent connection failures.
 
 ## Installation
+
+### Verify Your Daemon Version First
+
+Dify 1.13.3 ships with `dify-plugin-daemon:0.5.3-local` by default, which has a bug that breaks `.difypkg` installation. You **must** upgrade the daemon to 0.5.5+ before installing any local plugin package.
+
+In your `docker-compose.yaml` (e.g. `C:\dify\docker\docker-compose.yaml`), find the `plugin_daemon` service and update the image:
+
+```yaml
+  plugin_daemon:
+    # IMPORTANT: Daemon 0.5.3 has a struct-tag bug that rejects
+    # plugin_unique_identifier on the /decode/from_identifier endpoint.
+    # This was fixed in 0.5.5 via dify-plugin-daemon PR #593.
+    # See: https://github.com/langgenius/dify-plugin-daemon/pull/593
+    image: langgenius/dify-plugin-daemon:0.5.5-local
+```
+
+Then restart the daemon:
+
+```powershell
+cd C:\dify\docker
+docker compose up -d plugin_daemon
+```
 
 ### Option A: Install from .difypkg (recommended)
 
@@ -143,6 +165,21 @@ asksage/
 ├── requirements.txt            # Python dependencies
 └── .env.example                # Environment template
 ```
+
+## Known Issues -- Daemon 0.5.3
+
+Dify 1.13.3's default `docker-compose.yaml` pins `langgenius/dify-plugin-daemon:0.5.3-local`, which contains a bug in the `DecodePluginFromIdentifier` handler. The Go struct uses a `json:` tag instead of a `form:` tag, so Gin cannot bind the `plugin_unique_identifier` query parameter. The result is a **400 error** on `/decode/from_identifier` immediately after a successful `.difypkg` upload:
+
+```
+400: Key: 'PluginUniqueIdentifier' Error: Field validation for 'PluginUniqueIdentifier' failed on the 'required' tag
+```
+
+**Fix:** Upgrade to daemon **0.5.5+** (see [installation instructions](#verify-your-daemon-version-first) above).
+
+References:
+- [dify-plugin-daemon PR #593](https://github.com/langgenius/dify-plugin-daemon/pull/593) -- daemon-side fix (included in 0.5.5)
+- [dify PR #34720](https://github.com/langgenius/dify/pull/34720) -- API-side backward-compatible fix (merged to main, not yet released)
+- [dify issue #34274](https://github.com/langgenius/dify/issues/34274) -- original bug report
 
 ## Known Limitations
 
