@@ -28,3 +28,8 @@ debug_output.txt
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# Signing keys
+*.private.pem
+*.signed.difypkg
+*.difypkg
