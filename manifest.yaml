@@ -1,4 +1,4 @@
-version: 0.0.1
+version: 0.1.0
 type: plugin
 author: "jlay2026"
 name: "asksage"
@@ -17,7 +17,7 @@ plugins:
   models:
     - "provider/asksage.yaml"
 meta:
-  version: 0.0.1
+  version: 0.1.0
   arch:
     - "amd64"
     - "arm64"
