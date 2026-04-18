@@ -86,7 +86,7 @@ class AskSageLargeLanguageModel(LargeLanguageModel):
             "model": model,
             "temperature": model_parameters.get("temperature", 0.7),
             "limit_references": 0,        # No RAG by default; user can change via AskSage settings
-            "live": 0,                     # No web search by default
+            "live": model_parameters.get("live", 0),  # 0=off, 1=Google, 2=Google+crawl
             "dataset": "none",
             "usage": True,                 # Request token usage stats
         }
