@@ -27,4 +27,5 @@ meta:
     entrypoint: "main"
 created_at: "2026-04-15T00:00:00.000Z"
 privacy: PRIVACY.md
+repo: "https://github.com/JLay2026/asksage-dify-plugin"
 verified: false
