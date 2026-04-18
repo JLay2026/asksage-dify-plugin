@@ -1,6 +1,6 @@
-model: google-claude-46-opus
+model: google-claude-45-haiku
 label:
-  en_US: google-claude-46-opus (via AskSage)
+  en_US: google-claude-45-haiku (via AskSage)
 model_type: llm
 features:
 - agent-thought

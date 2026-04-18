@@ -4,6 +4,7 @@ Translates Dify's standardized model interface into AskSage API calls.
 """
 
 import json
+import time
 import logging
 from decimal import Decimal
 from typing import Generator, Optional, Union
@@ -242,7 +243,7 @@ class AskSageLargeLanguageModel(LargeLanguageModel):
     ) -> int:
         """
         Estimate token count. AskSage doesn't provide a tokenizer endpoint
-        for arbitrary text, so we use a rough heuristic (4 chars ≈ 1 token).
+        for arbitrary text, so we use a rough heuristic (4 chars â‰ˆ 1 token).
         """
         total_chars = 0
         for msg in prompt_messages:
@@ -314,6 +315,80 @@ class AskSageLargeLanguageModel(LargeLanguageModel):
             },
             parameter_rules=[],
         )
+
+
+    # ------------------------------------------------------------------ #
+    #  Dynamic model discovery
+    # ------------------------------------------------------------------ #
+
+    # Cache: avoids calling /get-models on every request
+    _models_cache: list[AIModelEntity] = []
+    _models_cache_timestamp: float = 0
+    _CACHE_TTL: float = 300  # 5 minutes
+
+    def get_models(self, credentials: dict) -> list[AIModelEntity]:
+        """
+        Fetch available models from AskSage /server/get-models at runtime.
+        Results are cached for 5 minutes to avoid excessive API calls.
+        Models fetched here appear in Dify's model selector automatically.
+        """
+        now = time.time()
+        if self._models_cache and (now - self._models_cache_timestamp) < self._CACHE_TTL:
+            return self._models_cache
+
+        api_key = credentials.get("asksage_api_key", "")
+        api_base = credentials.get("asksage_api_base", "https://api.asksage.ai").rstrip("/")
+
+        try:
+            response = requests.post(
+                f"{api_base}/server/get-models",
+                headers={
+                    "x-access-tokens": api_key,
+                    "Content-Type": "application/json",
+                },
+                json={},
+                timeout=30,
+            )
+
+            if response.status_code != 200:
+                logger.warning(f"Failed to fetch models from AskSage: {response.status_code}")
+                return self._models_cache  # Return stale cache on failure
+
+            data = response.json()
+            models_data = data.get("response", {}).get("data", [])
+
+            entities = []
+            for m in models_data:
+                model_id = m.get("id", "")
+                model_name = m.get("name", model_id)
+                if not model_id:
+                    continue
+
+                entities.append(
+                    AIModelEntity(
+                        model=model_id,
+                        label={"en_US": f"{model_name} (via AskSage)"},
+                        model_type=ModelType.LLM,
+                        fetch_from=FetchFrom.PREDEFINED_MODEL,
+                        features=[],
+                        model_properties={
+                            ModelPropertyKey.MODE: LLMMode.CHAT.value,
+                            ModelPropertyKey.CONTEXT_SIZE: 128000,
+                        },
+                        parameter_rules=[],
+                    )
+                )
+
+            if entities:
+                self._models_cache = entities
+                self._models_cache_timestamp = now
+                logger.info(f"Discovered {len(entities)} models from AskSage API.")
+
+            return self._models_cache
+
+        except Exception as ex:
+            logger.warning(f"Error fetching AskSage models: {ex}")
+            return self._models_cache  # Return stale cache on error
 
     # ------------------------------------------------------------------ #
     #  Error mapping

@@ -1,12 +1,12 @@
-model: google-claude-46-opus
+model: gpt-5.1
 label:
-  en_US: google-claude-46-opus (via AskSage)
+  en_US: gpt-5.1 (via AskSage)
 model_type: llm
 features:
 - agent-thought
 model_properties:
   mode: chat
-  context_size: 200000
+  context_size: 128000
 parameter_rules:
 - name: temperature
   use_template: temperature

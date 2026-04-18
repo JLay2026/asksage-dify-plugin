@@ -1,12 +1,12 @@
-model: google-claude-46-opus
+model: google-claude-4-sonnet
 label:
-  en_US: google-claude-46-opus (via AskSage)
+  en_US: google-claude-4-sonnet (via AskSage)
 model_type: llm
 features:
 - agent-thought
 model_properties:
   mode: chat
-  context_size: 200000
+  context_size: 128000
 parameter_rules:
 - name: temperature
   use_template: temperature

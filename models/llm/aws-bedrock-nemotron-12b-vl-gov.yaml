@@ -1,12 +1,12 @@
-model: google-claude-46-opus
+model: aws-bedrock-nemotron-12b-vl-gov
 label:
-  en_US: google-claude-46-opus (via AskSage)
+  en_US: aws-bedrock-nemotron-12b-vl-gov (via AskSage)
 model_type: llm
 features:
 - agent-thought
 model_properties:
   mode: chat
-  context_size: 200000
+  context_size: 32000
 parameter_rules:
 - name: temperature
   use_template: temperature
