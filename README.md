@@ -11,6 +11,38 @@ A Dify plugin that integrates [AskSage](https://asksage.ai) as a model provider,
 - **Simulated streaming** -- works with Dify's streaming UI even though AskSage uses synchronous responses
 - **Model generator script** -- run `generate_models.py` to refresh model YAMLs when AskSage adds new models
 
+## Creating an AskSage Account
+
+1. Go to [chat.asksage.ai/register](https://chat.asksage.ai/register)
+2. Fill in all required fields (first name, last name, company, email, phone, country)
+   - If you have a CAC/PIV card, ensure it is inserted during registration
+   - AskSage is restricted to approved nationalities listed on the registration page
+3. Submit the form -- you will receive a verification code via email
+   - If you do not receive the code, email support@asksage.ai to force-validate your account
+4. Log in at [chat.asksage.ai](https://chat.asksage.ai) with your email and password (or CAC/PIV)
+5. New accounts receive a **free 30-day trial** with 200,000 inference tokens and 200,000 training tokens
+
+### After Trial
+
+| Plan | Price | Tokens/Month |
+|------|-------|--------------|
+| Bring Your Own LLMs | From $15/mo/user | Unlimited |
+| Standard | $30/mo/user | 500K |
+| Plus | $50/mo/user | 1M |
+| Enterprise | $90/mo or $990/yr | 2M |
+
+Contact sales@asksage.ai for enterprise pricing and volume discounts.
+
+### Getting Your API Key
+
+1. Sign in at [chat.asksage.ai](https://chat.asksage.ai)
+2. Click the **Settings** cog (bottom left)
+3. Select the **Account** tab
+4. Scroll to **Manage your API Keys**
+5. Generate a new key -- save it securely (you will need it for the plugin)
+
+For MFA setup, we recommend Microsoft Authenticator or Google Authenticator. Configure it in the same Account settings page.
+
 ## Requirements
 
 | Component | Version |
