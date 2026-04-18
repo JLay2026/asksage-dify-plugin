@@ -189,11 +189,14 @@ If you installed via a `.difypkg` upload, you must repackage and reinstall:
      Set-Content manifest.yaml -NoNewline -Encoding ([System.Text.UTF8Encoding]::new($false))
    ```
 
-3. **Repackage:**
+3. **Repackage** — run from the parent directory, not from inside the plugin folder:
 
    ```powershell
-   & "$HOME\bin\dify.exe" plugin package .
+   cd C:\projects\asksage_plugin_dify
+   & "$HOME\bin\dify.exe" plugin package .\asksage
    ```
+
+   This writes `asksage.difypkg` to `C:\projects\asksage_plugin_dify\`. If you get "Access is denied", you are likely in a directory you don't have write access to (e.g. `C:\`).
 
 4. **Uninstall the old version** in the Dify console: **Plugins** → find AskSage → delete/uninstall.
 
