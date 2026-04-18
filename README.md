@@ -166,6 +166,63 @@ asksage/
 └── .env.example                # Environment template
 ```
 
+## Plugin Update Procedures
+
+When the plugin code is updated (new features, model changes, bug fixes), the update process depends on how you installed the plugin.
+
+### Packaged Install (.difypkg)
+
+If you installed via a `.difypkg` upload, you must repackage and reinstall:
+
+1. **Pull the latest code:**
+
+   ```powershell
+   cd C:\projects\asksage_plugin_dify\asksage
+   git pull origin main
+   ```
+
+2. **Bump the version in `manifest.yaml`** — the daemon rejects reinstalls at the same version:
+
+   ```powershell
+   # Example: 0.1.0 → 0.2.0
+   (Get-Content manifest.yaml -Raw) -replace 'version: 0.1.0', 'version: 0.2.0' |
+     Set-Content manifest.yaml -NoNewline -Encoding ([System.Text.UTF8Encoding]::new($false))
+   ```
+
+3. **Repackage:**
+
+   ```powershell
+   & "$HOME\bin\dify.exe" plugin package .
+   ```
+
+4. **Uninstall the old version** in the Dify console: **Plugins** → find AskSage → delete/uninstall.
+
+5. **Upload the new `.difypkg`**: **Plugins** → **Install Plugin** → upload the new file.
+
+6. **Re-enter credentials** — API key and base URL do not carry over between installs. Go to the AskSage provider settings and re-enter them.
+
+### Debug Mode
+
+If you are running in debug mode (local Python process), updates are simpler:
+
+1. **Pull the latest code:**
+
+   ```powershell
+   cd C:\projects\asksage_plugin_dify\asksage
+   git pull origin main
+   ```
+
+2. **Restart the plugin** — stop the running process (Ctrl+C) and relaunch:
+
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   python -m main
+   ```
+
+   Dify picks up updated model YAMLs and code on reconnect. No version bump or repackaging required.
+
+> **Tip:** Use debug mode during active development. Switch to `.difypkg` for production or team distribution.
+
 ## Known Issues -- Daemon 0.5.3
 
 Dify 1.13.3's default `docker-compose.yaml` pins `langgenius/dify-plugin-daemon:0.5.3-local`, which contains a bug in the `DecodePluginFromIdentifier` handler. The Go struct uses a `json:` tag instead of a `form:` tag, so Gin cannot bind the `plugin_unique_identifier` query parameter. The result is a **400 error** on `/decode/from_identifier` immediately after a successful `.difypkg` upload:
