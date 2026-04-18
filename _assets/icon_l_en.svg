@@ -1,0 +1,6 @@
+<!-- sample rectangle -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect width="72" height="72" rx="12" fill="#1A1A2E"/>
+  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white">AS</text>
+</svg>

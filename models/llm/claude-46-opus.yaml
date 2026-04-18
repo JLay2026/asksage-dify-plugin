@@ -1,0 +1,23 @@
+model: google-claude-46-opus
+label:
+  en_US: Claude 4.6 Opus (via AskSage)
+model_type: llm
+features:
+  - agent-thought
+model_properties:
+  mode: chat
+  context_size: 200000
+parameter_rules:
+  - name: temperature
+    use_template: temperature
+  - name: max_tokens
+    use_template: max_tokens
+    required: false
+    default: 4096
+    min: 1
+    max: 32768
+pricing:
+  input: "15.00"
+  output: "75.00"
+  unit: "0.000001"
+  currency: USD

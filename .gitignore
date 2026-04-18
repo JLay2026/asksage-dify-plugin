@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Environment variables (contains secrets)
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dify plugin packaging
+*.difypkg
+
+# Debug output
+debug_output.txt
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

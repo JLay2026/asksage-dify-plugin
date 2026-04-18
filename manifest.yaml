@@ -1,0 +1,30 @@
+version: 0.0.1
+type: plugin
+author: "jlay2026"
+name: "asksage"
+label:
+  en_US: "AskSage"
+description:
+  en_US: "AskSage AI model provider - access GPT, Claude, Mistral, and other models through the AskSage platform."
+icon: "icon.svg"
+resource:
+  memory: 268435456  # 256MB
+  permission:
+    model:
+      enabled: true
+      llm: true
+plugins:
+  models:
+    - "provider/asksage.yaml"
+meta:
+  version: 0.0.1
+  arch:
+    - "amd64"
+    - "arm64"
+  runner:
+    language: "python"
+    version: "3.12"
+    entrypoint: "main"
+created_at: "2026-04-15T00:00:00.000Z"
+privacy: PRIVACY.md
+verified: false
