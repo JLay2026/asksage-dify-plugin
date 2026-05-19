@@ -5,14 +5,18 @@ All notable changes to the AskSage Dify Plugin will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.1] - 2026-05-19
 
 ### Added
 
-- **Web Search (live) parameter** exposed on all 47 models. Users can set 0 (off), 1 (Google results), or 2 (Google + web page summaries / Live+) in the Dify model configuration UI. Default remains 0. Note: Live mode is not CUI/Sensitive-data compliant.
+- **New AskSage branding assets** -- swapped icon SVGs for the official AskSage badge (72×72 main icon) and owl-only mascot (48×48 and 36×36 label icons) for better legibility at small sizes.
+- **Web Search (live) parameter** exposed on all models. Users can set 0 (off), 1 (Google results), or 2 (Google + web page summaries / Live+) in the Dify model configuration UI. Default remains 0.
+- **Plugin Update Procedures section** in README documenting the upgrade workflow for both `.difypkg` installs and debug mode.
 
 ### Changed
 
+- **README account creation** now directs users to the AskSage commercial tenant at [chat.asksage.com](https://chat.asksage.com) (previously pointed to `chat.asksage.ai`). Support and sales emails updated to `@asksage.com`.
+- **Scope narrowed to commercial tenant** -- removed all references to GovCloud, CAC/PIV, and CUI/Sensitive-data compliance from the README. Removed 14 `-gov` model variants (down from 47 to 33 models). The `generate_models.py` script now auto-excludes `-gov` model IDs from future regenerations.
 - **Minimum daemon version raised to 0.5.5+** in README. Daemon 0.5.3 (Dify 1.13.3 default) has a `form:` struct-tag bug that breaks `.difypkg` installation with a 400 error on `/decode/from_identifier`. Fixed upstream in [dify-plugin-daemon PR #593](https://github.com/langgenius/dify-plugin-daemon/pull/593).
 - **Known Issues section** in README documenting the daemon 0.5.3 regression with workaround and references.
 - **Daemon version check** instructions in the Installation section with docker-compose snippet.

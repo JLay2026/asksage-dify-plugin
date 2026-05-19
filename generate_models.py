@@ -16,8 +16,10 @@ EXCLUDE_MODELS = {
     "google-gemini-2.5-flash-image",
 }
 
-# Substrings that indicate an image model -- auto-excluded
-EXCLUDE_PATTERNS = ["imagen", "-image"]
+# Substrings that auto-exclude a model:
+#   - imagen / -image: image-generation models (not chat LLMs)
+#   - -gov: GovCloud-hosted variants (this plugin targets the commercial tenant only)
+EXCLUDE_PATTERNS = ["imagen", "-image", "-gov"]
 
 # Models that are completion-only (not chat), get mode: completion
 COMPLETION_MODELS = {
@@ -117,6 +119,18 @@ def main():
                     "default": 4096,
                     "min": 1,
                     "max": 16384,
+                },
+                {
+                    "name": "live",
+                    "label": {"en_US": "Web Search"},
+                    "type": "int",
+                    "help": {
+                        "en_US": "Live web search mode. 0 = off, 1 = Google results, 2 = Google + web page summaries (Live+)."
+                    },
+                    "required": False,
+                    "default": 0,
+                    "min": 0,
+                    "max": 2,
                 },
             ],
         }

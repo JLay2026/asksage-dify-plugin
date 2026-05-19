@@ -21,7 +21,7 @@ parameter_rules:
     en_US: Web Search
   type: int
   help:
-    en_US: "Live web search mode. 0 = off, 1 = Google results, 2 = Google + web page summaries (Live+). Not CUI/Sensitive-data compliant."
+    en_US: "Live web search mode. 0 = off, 1 = Google results, 2 = Google + web page summaries (Live+)."
   required: false
   default: 0
   min: 0
