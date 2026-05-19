@@ -13,13 +13,13 @@ A Dify plugin that integrates [AskSage](https://asksage.ai) as a model provider,
 
 ## Creating an AskSage Account
 
-1. Go to [chat.asksage.ai/register](https://chat.asksage.ai/register)
+This plugin uses the AskSage commercial tenant at `chat.asksage.com`.
+
+1. Go to [chat.asksage.com/register](https://chat.asksage.com/register)
 2. Fill in all required fields (first name, last name, company, email, phone, country)
-   - If you have a CAC/PIV card, ensure it is inserted during registration
-   - AskSage is restricted to approved nationalities listed on the registration page
 3. Submit the form -- you will receive a verification code via email
-   - If you do not receive the code, email support@asksage.ai to force-validate your account
-4. Log in at [chat.asksage.ai](https://chat.asksage.ai) with your email and password (or CAC/PIV)
+   - If you do not receive the code, email support@asksage.com to force-validate your account
+4. Log in at [chat.asksage.com](https://chat.asksage.com) with your email and password
 5. New accounts receive a **free 30-day trial** with 200,000 inference tokens and 200,000 training tokens
 
 ### After Trial
@@ -31,11 +31,11 @@ A Dify plugin that integrates [AskSage](https://asksage.ai) as a model provider,
 | Plus | $50/mo/user | 1M |
 | Enterprise | $90/mo or $990/yr | 2M |
 
-Contact sales@asksage.ai for enterprise pricing and volume discounts.
+Contact sales@asksage.com for enterprise pricing and volume discounts.
 
 ### Getting Your API Key
 
-1. Sign in at [chat.asksage.ai](https://chat.asksage.ai)
+1. Sign in at [chat.asksage.com](https://chat.asksage.com)
 2. Click the **Settings** cog (bottom left)
 3. Select the **Account** tab
 4. Scroll to **Manage your API Keys**
