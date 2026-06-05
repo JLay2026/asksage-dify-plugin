@@ -7,6 +7,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.1.1] - 2026-05-19
 
+### Distribution
+
+- **Published to the [Dify Marketplace](https://marketplace.dify.ai/plugin/jlay2026/asksage)** on 2026-06-04. Marketplace is now the recommended install path; the `.difypkg` upload flow is retained for offline, air-gapped, or pre-release scenarios. See README "Installation > Option A" for details.
+
 ### Added
 
 - **New AskSage branding assets** -- swapped icon SVGs for the official AskSage badge (72×72 main icon) and owl-only mascot (48×48 and 36×36 label icons) for better legibility at small sizes.

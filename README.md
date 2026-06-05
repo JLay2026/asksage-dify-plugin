@@ -57,7 +57,25 @@ For MFA setup, we recommend Microsoft Authenticator or Google Authenticator. Con
 
 ## Installation
 
-### Verify Your Daemon Version First
+### Option A: Install from Dify Marketplace (recommended)
+
+The plugin is published to the [Dify Marketplace](https://marketplace.dify.ai/plugin/jlay2026/asksage). Marketplace packages are signed by Dify and install cleanly without any host-side configuration.
+
+1. In Dify, go to **Plugins** (top right)
+2. Click **Explore Marketplace** (or visit the [listing](https://marketplace.dify.ai/plugin/jlay2026/asksage) directly)
+3. Search for **AskSage** and click **Install**
+4. Configure credentials (see below)
+
+This is the path 99% of users want. Skip to **Credential Setup** below.
+
+### Option B: Install from .difypkg (offline / pre-release builds)
+
+Use this path only when:
+- Your Dify instance is air-gapped and can't reach the Marketplace
+- You're testing an unreleased build of the plugin
+- You need to install a version that's no longer on the Marketplace
+
+#### Verify Your Daemon Version First
 
 Dify 1.13.3 ships with `dify-plugin-daemon:0.5.3-local` by default, which has a bug that breaks `.difypkg` installation. You **must** upgrade the daemon to 0.5.5+ before installing any local plugin package.
 
@@ -79,15 +97,35 @@ cd C:\dify\docker
 docker compose up -d plugin_daemon
 ```
 
-### Option A: Install from .difypkg (recommended)
+#### Disable Signature Verification for Unsigned Packages
 
-1. Download `asksage-0.1.0.difypkg` from the [Releases](https://github.com/JLay2026/asksage-dify-plugin/releases) page
+Dify rejects unsigned `.difypkg` files by default with the error: *"plugin verification has been enabled, and the plugin you want to install has a bad signature"*. Local builds and GitHub Release downloads are unsigned from Dify's perspective.
+
+To allow installation, append the following to your `docker/.env`:
+
+```
+FORCE_VERIFYING_SIGNATURE=false
+```
+
+Then restart Dify:
+
+```
+cd docker
+docker compose down
+docker compose up -d
+```
+
+> **Warning:** This disables signature checks for **all** plugins on this Dify instance, not just AskSage. For shared or multi-tenant deployments, prefer Option A or set up third-party key allow-listing (`THIRD_PARTY_SIGNATURE_VERIFICATION_ENABLED` + `THIRD_PARTY_SIGNATURE_VERIFICATION_PUBLIC_KEYS`) instead.
+
+#### Upload Steps
+
+1. Download `asksage-X.Y.Z.difypkg` from the [Releases](https://github.com/JLay2026/asksage-dify-plugin/releases) page
 2. In Dify, go to **Plugins** (top right)
 3. Click **Install Plugin**
 4. Upload the `.difypkg` file
 5. Configure credentials (see below)
 
-### Option B: Remote debugging (development)
+### Option C: Remote debugging (development)
 
 1. Clone this repo:
    ```
@@ -169,6 +207,10 @@ asksage/
 ## Plugin Update Procedures
 
 When the plugin code is updated (new features, model changes, bug fixes), the update process depends on how you installed the plugin.
+
+### Marketplace Install
+
+If you installed via the Dify Marketplace, updates appear automatically in the Plugins page when a new version is published. Click **Update** to upgrade in place — credentials are preserved.
 
 ### Packaged Install (.difypkg)
 
@@ -254,6 +296,7 @@ Apache 2.0
 
 ## Links
 
+- [Dify Marketplace listing](https://marketplace.dify.ai/plugin/jlay2026/asksage)
 - [AskSage API Documentation](https://docs.asksage.ai/docs/api-documentation/api-documentation.html)
 - [Dify Plugin Development Docs](https://docs.dify.ai/en/develop-plugin/dev-guides-and-walkthroughs/creating-new-model-provider)
 - [Dify Plugin SDK](https://github.com/langgenius/dify-plugin-sdks)
